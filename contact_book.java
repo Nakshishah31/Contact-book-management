@@ -46,3 +46,55 @@ class ContactBook {
                     }
                     break;
 
+                case 3:
+                    System.out.print("Enter Contact name to delete: ");
+                    String nameDel = sc.nextLine();
+                    contact.remove(nameDel);
+                    System.out.println("Contact deleted Successfully");
+                    saveContactsToCSV(contact);
+                    break;
+
+                case 4:
+                    System.out.print("Enter contact name to modify: ");
+                    String nameMod = sc.nextLine();
+                    System.out.print("Enter new Contact Number: ");
+                    String contactMod = sc.nextLine();
+                    contact.put(nameMod, contactMod);
+                    System.out.println("Contact Number Modified Successfully...");
+                    saveContactsToCSV(contact);
+                    break;
+
+                case 5:
+                    System.out.println("Displaying all contacts:");
+                    for (String key : contact.keySet()) {
+                        System.out.println("Name: " + key + " Number: " + contact.get(key));
+                    }
+                    break;
+
+                case 6:
+                    System.out.println("Thank You For Visiting Our Contact Book Management System");
+                    sc.close();
+                    isRunning = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }
+    }
+
+    public static void saveContactsToCSV(HashMap<String, String> contacts) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("contacts.csv"))) {
+            bw.write("Name,Number");
+            bw.newLine();
+            for (String name : contacts.keySet()) {
+                bw.write(name + "," + contacts.get(name));
+                bw.newLine();
+            }
+            System.out.println("Contacts saved to CSV file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving to CSV file.");
+            e.printStackTrace();
+        }
+    }
+}
